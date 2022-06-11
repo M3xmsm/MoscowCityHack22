@@ -11,15 +11,15 @@ def get_postgres_connection():
     return psql_db
 
 
-class MoscowCompanies(Model):
-    company_name = CharField(primary_key=True)
-    company_url = CharField(null=True)
+class TechnoMoscow(Model):
+    name = CharField(primary_key=True)
+    website = CharField(null=True)
     tel = CharField(null=True)
     category = CharField(null=True)
     description = TextField(null=True)
 
     class Meta:
-        table_name = 'moscow_companies'
+        table_name = 'techno_moscow'
 
 
 def main():

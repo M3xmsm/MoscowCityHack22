@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'moscowcityhack'
+BOT_NAME = 'src'
 
-SPIDER_MODULES = ['moscowcityhack.spiders']
-NEWSPIDER_MODULE = 'moscowcityhack.spiders'
+SPIDER_MODULES = ['src.spiders']
+NEWSPIDER_MODULE = 'src.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

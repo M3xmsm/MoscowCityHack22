@@ -1,5 +1,8 @@
 import scrapy
 from structlog import get_logger
+from w3lib.html import remove_tags
+from backend.postgres import TechnoMoscow, get_postgres_connection
+
 
 
 logger = get_logger()
@@ -8,87 +11,80 @@ logger = get_logger()
 class TechnoMoscowSpider(scrapy.Spider):
     name = 'technomoscow'
     start_urls = ['https://technomoscow.ru/resident/']
+    psql_db = get_postgres_connection()
+    psql_db.bind([TechnoMoscow])
+
+
+    def send_to_db(self, record):
+        with self.psql_db:
+            TechnoMoscow.create(
+                name=record['name'],
+                category=record['category'],
+                website=record['website'], 
+                tel=record['tel'],
+                description=record['description']
+            )
 
     def parse(self, response):
         for companies in response.css('a.resident-item'):
-            logger.info('company', name = companies.css('div.resident-item__title::text').get())
+            # logger.info('company', name = companies.css('div.resident-item__title::text').get())
             full_link = 'https://technomoscow.ru' + companies.css('a.resident-item').attrib['href']
-            yield {
+            meta = {
                 'name': companies.css('div.resident-item__title::text').get(),
-                'type': companies.css('div.resident-item__footer-name::text').get(),
-                'full_link': full_link
+                'category': companies.css('div.resident-item__footer-name::text').get(),
             }
-            yield response.follow(full_link, callback = self.parse_profile)
+            yield response.follow(full_link, callback=self.parse_profile, meta=meta)
 
-    # def parse_next_page(self, response):
-    #     for link in response.css('a.resident-item'):
-    #         companies = response.css('a.resident-item')
-    #         full_link = 'https://technomoscow.ru' + companies.css('a.resident-item').attrib['href']
-    #         yield response.follow(full_link, callback = self.parse_profile)
-    
     def parse_profile(self, response):
         profile = response.css('div.resident__descr')
         needed_divs = profile.css('div.resident__text-col')
-        logger.info('Profile', name=profile.css('span.resident__title-text::text').get())
 
-        # website_1 = None
-        # if profile.css('a.resident__label-val') is not None:
-        #     try: 
-        #         website_1 = profile.css('a.resident__label-val').attrib['href']
-        #     except Exception as e:
-        #         logger.error('Error', exception=str(e))
-        #         website_1 = None
-
-        # website_2 = None
-        # if profile.css('a') is not None:     
-        #     try:
-        #         website_2 = profile.css('a').attrib['href']
-        #     except Exception as e:
-        #         logger.error('Error', exception=str(e))
-        #         website_2 = None
-    
-        # yield {
-        #     'website_1': website_1,
-        #     'website_2': website_2
-        # }
-
+        website = None
+        tel = None
+        description = None
 
         try:
-            yield {
-                'website': profile.css('a.resident__label-val').attrib['href'],
-                'tel': profile.css('a.resident__label-val')[1].attrib['href'].replace('tel:', ''),
-                'description': needed_divs.css('p').getall()
-            }
+            raw_description = needed_divs.css('p').getall()
+            full_description = ' '.join(raw_description)
+            description = remove_tags(full_description).replace('\r\n', '').replace('\t', '')
         except:
+            description = None
+
+        try: 
+            website = profile.css('a.resident__label-val').attrib['href']
+            tel =  profile.css('a.resident__label-val')[1].attrib['href'].replace('tel:', '')
+        except: 
             try:
-                yield {
-                    'website': profile.css('a').attrib['href'],
-                    'tel': profile.css('a')[1].attrib['href'].replace('tel:', ''),
-                    'description': needed_divs.css('p').getall()
-                }
+                website = profile.css('a').attrib['href']
+                tel = profile.css('a')[1].attrib['href'].replace('tel:', '')
             except:
                 try:
-                    yield {
-                        'website': profile.css('a').attrib['href'],
-                        'tel': None,
-                        'description': needed_divs.css('p').getall()
-                    }
+                    website = profile.css('a').attrib['href']
+                    tel = None     
                 except:
-                    try:
-                        yield {
-                            'website': None,
-                            'tel': None,
-                            'description': needed_divs.css('p').getall()
-                        }
-                    except:
-                        yield {
-                            'website': None,
-                            'tel': None,
-                            'description': None
-                        }
-        finally:
-            yield {
-                'website': None,
-                'tel': None,
-                'description': None
+                    website = None
+                    tel = None
+
+        profile_info =  {
+                'website': website,
+                'tel': tel,
+                'description': description
             }
+        profile_info.update(response.meta)
+        logger.info('Profile', **profile_info)
+        yield profile_info
+            
+
+
+
+
+def main():
+    psql_db = get_postgres_connection()
+    psql_db.bind([MoscowCompanies])
+
+    with psql_db:
+        MoscowCompanies.create(
+            company_name=...,
+            company_url=...,
+            description=...,
+        )
