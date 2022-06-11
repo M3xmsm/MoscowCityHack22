@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "moscow_hack"
+version = "0.1.0"
+description = ""
+authors = ["ksetherg"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.22.4"
+pandas = "^1.4.2"
+Scrapy = "^2.6.1"
+bs4 = "^0.0.1"
+peewee = "^3.14.10"
+psycopg2 = "^2.9.3"
+jupyter = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
