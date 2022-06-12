@@ -68,3 +68,12 @@ class MoscowProducts(Model):
     
     class Meta:
         table_name = 'moscow_products'
+
+class SkolkovoProm(Model):
+    name = CharField(primary_key=True)
+    inn = FixedCharField(12)
+    ogrn = FixedCharField(15)
+    description = TextField(null=True)
+
+    class Meta:
+        table_name = 'skolkovo_prom'
