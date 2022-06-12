@@ -1,5 +1,10 @@
 from playhouse.db_url import connect
-from peewee import Model, TextField, CharField
+from peewee import (
+    Model, TextField,
+    CharField, FixedCharField,
+    IntegerField, DoubleField,
+    BooleanField, DateTimeField
+)
 
 
 def get_postgres_connection():
