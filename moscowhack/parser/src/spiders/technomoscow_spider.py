@@ -1,9 +1,7 @@
 import scrapy
 from structlog import get_logger
 from w3lib.html import remove_tags
-from src.postgres import TechnoMoscow, get_postgres_connection
-
-
+from moscowhack.backend.postgres import TechnoMoscow, get_postgres_connection
 
 logger = get_logger()
 
@@ -14,12 +12,11 @@ class TechnoMoscowSpider(scrapy.Spider):
     psql_db = get_postgres_connection()
     psql_db.bind([TechnoMoscow])
 
-
     def send_to_db(self, record):
         with self.psql_db:
             TechnoMoscow.create(
                 name=record['name'],
-                website=record['website'], 
+                website=record['website'],
                 tel=record['tel'],
                 category=record['category'],
                 description=record['description']
@@ -50,28 +47,27 @@ class TechnoMoscowSpider(scrapy.Spider):
         except:
             description = None
 
-        try: 
+        try:
             website = profile.css('a.resident__label-val').attrib['href']
-            tel =  profile.css('a.resident__label-val')[1].attrib['href'].replace('tel:', '')
-        except: 
+            tel = profile.css('a.resident__label-val')[1].attrib['href'].replace('tel:', '')
+        except:
             try:
                 website = profile.css('a').attrib['href']
                 tel = profile.css('a')[1].attrib['href'].replace('tel:', '')
             except:
                 try:
                     website = profile.css('a').attrib['href']
-                    tel = None     
+                    tel = None
                 except:
                     website = None
                     tel = None
 
-        profile_info =  {
-                'website': website,
-                'tel': tel,
-                'description': description
-            }
+        profile_info = {
+            'website': website,
+            'tel': tel,
+            'description': description
+        }
         profile_info.update(response.meta)
         self.send_to_db(profile_info)
         logger.info('Profile', **profile_info)
         yield profile_info
-            
