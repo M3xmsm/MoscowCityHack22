@@ -53,3 +53,18 @@ class CompaniesInfo(Model):
     class Meta:
         table_name = 'companies_info'
 
+class MoscowProducts(Model):
+    short_name = CharField(null=True)
+    full_name = TextField(null=True)
+    inn = FixedCharField(12)
+    ogrn = FixedCharField(15)
+    register_number = CharField(null=True)
+    product_name = TextField(null=True)
+    okpd2 = CharField(null=True)
+    tnved = CharField(null=True)
+    name_of_regulations = TextField(null=True)
+    okved_name = TextField(null=True)
+    okved_0 = IntegerField(null=True)
+    
+    class Meta:
+        table_name = 'moscow_products'
