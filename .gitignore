@@ -132,7 +132,10 @@ dmypy.json
 **/.DS_Store
 
 # PyCharm
-.idea
+**/.idea
 
 # Poetry
-poetry.lock
+**/poetry.lock
+
+# CSV
+**/*.csv
