@@ -1,8 +1,7 @@
 import scrapy
 from structlog import get_logger
 from w3lib.html import remove_tags
-from src.postgres import TechnoMoscow, get_postgres_connection
-
+from moscowhack.backend.postgres import TechnoMoscow, get_postgres_connection
 
 
 logger = get_logger()

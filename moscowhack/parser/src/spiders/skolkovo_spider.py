@@ -2,7 +2,7 @@ import pandas as pd
 import scrapy
 from structlog import get_logger
 from w3lib.html import remove_tags
-from src.postgres import SkolkovoProm, get_postgres_connection
+from moscowhack.backend.postgres import SkolkovoProm, get_postgres_connection
 
 
 logger = get_logger()
