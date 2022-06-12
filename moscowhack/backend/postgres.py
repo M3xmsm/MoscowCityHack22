@@ -6,7 +6,6 @@ from peewee import (
     BooleanField, DateTimeField
 )
 
-
 def get_postgres_connection():
     psql_db = connect(
         url='postgresext://guest:q1w2e3r4@rc1b-s3a3dtlkkxb1qz6y.mdb.yandexcloud.net:6432/db',
@@ -52,6 +51,7 @@ class CompaniesInfo(Model):
     
     class Meta:
         table_name = 'companies_info'
+
 
 class MoscowProducts(Model):
     short_name = CharField(null=True)

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "MoscowCityHack22"
+name = "moscowhack"
 version = "0.1.0"
 description = ""
 authors = ["ksetherg"]
@@ -13,6 +13,8 @@ bs4 = "^0.0.1"
 peewee = "^3.14.10"
 psycopg2 = "^2.9.3"
 jupyter = "^1.0.0"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 
