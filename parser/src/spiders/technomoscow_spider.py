@@ -1,7 +1,7 @@
 import scrapy
 from structlog import get_logger
 from w3lib.html import remove_tags
-from backend.postgres import TechnoMoscow, get_postgres_connection
+from src.postgres import TechnoMoscow, get_postgres_connection
 
 
 
@@ -19,9 +19,9 @@ class TechnoMoscowSpider(scrapy.Spider):
         with self.psql_db:
             TechnoMoscow.create(
                 name=record['name'],
-                category=record['category'],
                 website=record['website'], 
                 tel=record['tel'],
+                category=record['category'],
                 description=record['description']
             )
 
@@ -71,20 +71,7 @@ class TechnoMoscowSpider(scrapy.Spider):
                 'description': description
             }
         profile_info.update(response.meta)
+        self.send_to_db(profile_info)
         logger.info('Profile', **profile_info)
         yield profile_info
             
-
-
-
-
-def main():
-    psql_db = get_postgres_connection()
-    psql_db.bind([MoscowCompanies])
-
-    with psql_db:
-        MoscowCompanies.create(
-            company_name=...,
-            company_url=...,
-            description=...,
-        )
