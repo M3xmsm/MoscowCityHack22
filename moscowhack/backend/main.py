@@ -1,7 +1,9 @@
-from moscowhack.backend.postgres import get_postgres_connection, CompaniesInfo, MoscowProducts
-from fastapi import FastAPI, Path, Query
-from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, List, Any
+
+from fastapi import FastAPI, Path
+from fastapi.middleware.cors import CORSMiddleware
+
+from moscowhack.backend.postgres import get_postgres_connection, CompaniesInfo, MoscowProducts
 
 pg_client = get_postgres_connection()
 pg_client.bind([CompaniesInfo, MoscowProducts])
@@ -21,7 +23,7 @@ app.add_middleware(
 
 @app.get("/company/get/{inn}")
 async def get_company_by_inn(
-    inn: str = Path(None, min_length=10, max_length=12, regex="^[0-9]+$")
+        inn: str = Path(None, min_length=10, max_length=12, regex="^[0-9]+$")
 ) -> Dict[str, Any]:
     with pg_client:
         if inn is not None:
@@ -33,7 +35,7 @@ async def get_company_by_inn(
 
 @app.get("/product/get/{inn}")
 async def get_products_by_inn(
-    inn: str = Path(None, min_length=10, max_length=12, regex="^[0-9]+$")
+        inn: str = Path(None, min_length=10, max_length=12, regex="^[0-9]+$")
 ) -> List[Dict[str, Any]]:
     with pg_client:
         if inn is not None:

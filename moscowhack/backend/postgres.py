@@ -1,10 +1,11 @@
-from playhouse.db_url import connect
 from peewee import (
     Model, TextField,
     CharField, FixedCharField,
     IntegerField, DoubleField,
     BooleanField, DateTimeField
 )
+from playhouse.db_url import connect
+
 
 def get_postgres_connection():
     psql_db = connect(
@@ -48,7 +49,7 @@ class CompaniesInfo(Model):
     email = CharField(null=True)
     moscow_support = BooleanField(null=True)
     reg_date = DateTimeField(null=True)
-    
+
     class Meta:
         table_name = 'companies_info'
 
@@ -65,9 +66,10 @@ class MoscowProducts(Model):
     name_of_regulations = TextField(null=True)
     okved_name = TextField(null=True)
     okved_0 = IntegerField(null=True)
-    
+
     class Meta:
         table_name = 'moscow_products'
+
 
 class SkolkovoProm(Model):
     name = CharField(primary_key=True)
