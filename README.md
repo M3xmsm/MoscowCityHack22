@@ -77,7 +77,7 @@
 - Количество похожих по виду деятельности производителей.
 
 **4) Векторизация данных.**
-
+- Пример: [RuBertEmbeddings.ipynb](https://github.com/M3xmsm/MoscowCityHack22/blob/main/notebooks/RuBertEmbeddings.ipynb)
 - С помощью DeepPavlov RuBert ([https://huggingface.co/DeepPavlov/rubert-base-cased-sentence](https://huggingface.co/DeepPavlov/rubert-base-cased-sentence)) превращаем всю доступную информацию о профелях компании в Embedding
 - Записываем полученные Embeddings в https://github.com/meilisearch/meilisearch для дальнейшей работы с ними
 - Можем делать Fuzzy Search по профилям компаний
