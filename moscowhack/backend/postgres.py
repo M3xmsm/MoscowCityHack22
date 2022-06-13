@@ -5,6 +5,7 @@ from peewee import (
     BooleanField, DateTimeField
 )
 from playhouse.db_url import connect
+from playhouse.postgres_ext import ArrayField
 
 
 def get_postgres_connection():
