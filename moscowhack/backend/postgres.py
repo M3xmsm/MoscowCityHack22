@@ -79,3 +79,16 @@ class SkolkovoProm(Model):
 
     class Meta:
         table_name = 'skolkovo_prom'
+
+class AnalyticsDataTry(Model):
+    inn = FixedCharField(12, primary_key=True)                    
+    num_products = IntegerField(null=True)          
+    has_products = BooleanField(null=True)          
+    available_data_count = IntegerField(null=True)   
+    missing_data = ArrayField(CharField)         
+    similar_producers_num = IntegerField(null=True) 
+    
+    class Meta:
+        table_name = 'analyticsdatatry'
+
+        
