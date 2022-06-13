@@ -11,7 +11,7 @@ from moscowhack.backend.postgres import (
 )
 
 pg_client = get_postgres_connection()
-pg_client.bind([CompaniesInfo, MoscowProducts])
+pg_client.bind([CompaniesInfo, MoscowProducts, AnalyticsDataTry])
 
 app = FastAPI()
 
