@@ -27,7 +27,7 @@ export default {
   methods: {
     async getProductsProfile(company_inn) {
       let response = await fetch(
-          `http://127.0.0.1:8000/product/get/${company_inn}`,
+          `http://51.250.101.92:8000/product/get/${company_inn}`,
           {method: 'GET'}
       )
       if (response.ok) {

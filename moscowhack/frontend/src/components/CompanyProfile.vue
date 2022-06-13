@@ -23,7 +23,7 @@ export default {
   methods: {
     async getCompanyProfile(company_inn) {
       let response = await fetch(
-          `http://127.0.0.1:8000/company/get/${company_inn}`,
+          `http://51.250.101.92:8000/company/get/${company_inn}`,
           {method: 'GET'}
       )
       if (response.ok) {
